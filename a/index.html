@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="js/jquery.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+
+
+    <script type="text/javascript" src="http://www.google.com/jsapi" />
+    <script type="text/javascript">
+        google.load("feeds", "1") //Load Google Ajax Feed API (version 1)
+    </script>
+
+</head>
+<body>
+
+<!-- OMDB API, pra encontrar posters de filmes (nome deve ser em inglês) -->
+    
+    <section id="pega-dados">
+        <h2>Find poster</h2>
+        <input type="text" id="filme" name="filme" class="form-control" placeholder="Movie name">
+        <button type="button" class="btn btn-primary btn-lg" onclick="f();">Find</button>
+   </section>
+        <!-- OBS: Para acessar o valor da input usando jQuery
+                $('#filme').val()
+         -->
+
+    <div id="poster">
+
+        <!-- Função que realiza a busca do poster -->
+        <script>
+        function f(){
+            //nome do filme a ser pesquisado
+            var filme = $('#filme').val();
+
+            //lê o JSON da API
+            $.getJSON('http://www.omdbapi.com/?t=' + filme, function(json){
+                console.log(json);
+                //imprime o poster acessando json.Poster e json.imdbRAting e escreve em html
+                $('#poster').html('<h2>Poster:</h2>' + '<img src=' + json.Poster + '/>' +
+                                '<h3>Rating:</h3>' + '<h3>' + json.imdbRating + '</h3>');
+            });
+        }
+
+        </script>
+    </div>
+
+    <div id="leitorFeed">
+
+
+    </div>
+
+
+</body>
+</html>
