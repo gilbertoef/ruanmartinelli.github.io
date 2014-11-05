@@ -2,6 +2,8 @@
 <html>
 <head>
     <script src="js/jquery.js"></script>
+    <script src="js/moment.js"></script>
+
     <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
     <link rel="stylesheet" type="text/css" href="css/index.css" />
 
@@ -18,29 +20,65 @@
     
     <section id="pega-dados">
         <h2>Find poster</h2>
-        <input type="text" id="filme" name="filme" class="form-control" placeholder="Movie name">
-        <button type="button" class="btn btn-primary btn-lg" onclick="f();">Find</button>
+        
+            <input type="text" id="filme" class="form-control" placeholder="Movie name" on/>
+            <button class="btn btn-primary btn-lg" onclick="f();" >Find</button>
+        
+
+        
    </section>
         <!-- OBS: Para acessar o valor da input usando jQuery
                 $('#filme').val()
          -->
 
+
+
+
     <div id="poster">
 
         <!-- Função que realiza a busca do poster -->
         <script>
+        var releaseDate = "00000";
+        var filmeLancado;
+        
+
         function f(){
+
+
             //nome do filme a ser pesquisado
             var filme = $('#filme').val();
+           
 
-            //lê o JSON da API
+
             $.getJSON('http://www.omdbapi.com/?t=' + filme, function(json){
                 console.log(json);
-                //imprime o poster acessando json.Poster e json.imdbRAting e escreve em html
-                $('#poster').html('<h2>Poster:</h2>' + '<img src=' + json.Poster + '/>' +
-                                '<h3>Rating:</h3>' + '<h3>' + json.imdbRating + '</h3>');
+                
+                /*
+                 releaseDate: armazena a data retirada da API para comparação
+                 tempo: armazena o resultado da comparação feito utilizando a moment.js
+                        resultado é exibido na forma de 'há x dias' ou 'em x dias', pro caso do filme não tiver ou não sido lançado
+                */
+                releaseDate = json.Released;
+
+                var tempo = moment(releaseDate, "D MMM YYYY").fromNow();
+                 
+
+                 if(tempo.indexOf("ago") > -1){
+                    $('#poster').html('<h2> Movie released '+tempo+ '</h2>' + '<h3>Poster:</h3>' + '<img src=' + json.Poster + '/>' + '<h3>Rating:</h3>' + '<h3>' + json.imdbRating + '</h3>');
+                }
+                if(tempo.indexOf("ago") == -1){
+                    $('#poster').html('<h2> Release '+ tempo + '</h2>' + '<h3>Poster:</h3>' + '<img src=' + json.Poster + '/>' + '<h3>Rating:</h3>' + '<h3>' + json.imdbRating + '</h3>');
+                }        
+                
             });
         }
+
+        //Fazer convesões pra saber se o filme já foi lançado
+        
+        
+       
+
+
 
         </script>
     </div>
