@@ -11,6 +11,24 @@
     <script type="text/javascript" src="http://www.google.com/jsapi" />
     <script type="text/javascript">
         google.load("feeds", "1") //Load Google Ajax Feed API (version 1)
+/*      function initialize() {
+        var feed = new google.feeds.Feed("http://fastpshb.appspot.com/feed/1/fastpshb");
+        feed.load(function(result) {
+        if (!result.error) {
+            var container = document.getElementById("feed");
+            for (var i = 0; i < result.feed.entries.length; i++) {
+                var entry = result.feed.entries[i];
+                var div = document.createElement("div");
+                div.appendChild(document.createTextNode(entry.title));
+                container.appendChild(div);
+            }
+        }
+      });
+
+    }
+    google.setOnLoadCallback(initialize);
+
+*/
     </script>
 
 </head>
@@ -75,15 +93,29 @@
 
         //Fazer convesões pra saber se o filme já foi lançado
         
-        
-       
+        //80d9bdd5d4bd60a620a0b794c33e37a15a2f3496
+        //http://www.giantbomb.com/api/search/?api_key=[YOUR-KEY]&format=json&query="metroid prime"&resources=game
 
 
 
         </script>
     </div>
 
-    <div id="leitorFeed">
+    <div id="jogos">
+        <input type="text" id="jogo" class="form-control">
+        <button class="btn btn-primary btn-lg" onclick="g();">Find</button>
+
+        <script type="text/javascript">
+            
+            function g(){
+                var jogo = $('#jogo').val();
+                
+
+                $.getJSON('http://www.giantbomb.com/api/search/?api_key=80d9bdd5d4bd60a620a0b794c33e37a15a2f3496&format=json&query=' + jogo, function(json){
+                    console.log(json);
+                })
+            }
+        </script>
 
 
     </div>

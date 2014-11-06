@@ -1,0 +1,34 @@
+<html>
+  <head>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+   
+  </head>
+  <body>
+    <div id="feed">
+      <h2>Comic Feeds</h2>
+         
+      
+         <script type="text/javascript">
+
+            google.load("feeds", "1");
+            function initialize() {
+            var feed = new google.feeds.Feed.JSON_FORMAT("http://www.lunarbaboon.com/comics/rss.xml");
+
+            feed.setNumEntries(100);
+            feed.load(function(result) {
+              if (!result.error) {
+                var container = document.getElementById("feed");
+                for (var i = 0; i < result.feed.entries.length; i++) {
+                  var entry = result.feed.entries[i];
+                  var div = document.createElement("div");
+                  div.appendChild(document.createTextNode(entry.description));
+                  container.appendChild(div);
+                }
+              }
+            });
+          }
+            google.setOnLoadCallback(initialize);
+    </script>
+    </div>
+  </body>
+</html>
